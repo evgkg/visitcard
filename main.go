@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 )
 
@@ -19,11 +20,15 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func donatePage(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseGlob(".pages/donate.html"))
+	t := template.Must(template.ParseGlob("./pages/donate.html"))
 	err := t.ExecuteTemplate(w, "donate.html", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func redirectTLS(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, ":"+os.Getenv("PORTS")+r.RequestURI, http.StatusMovedPermanently)
 }
 func handleRequest() {
 	fs := http.FileServer(http.Dir("source"))
@@ -32,9 +37,11 @@ func handleRequest() {
 
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/donate", donatePage)
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-
+	go func() {
+		err := http.ListenAndServeTLS(":"+os.Getenv("PORTS"), "certs/fullchain.pem", "certs/privkey.pem", nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), http.HandlerFunc(redirectTLS)))
 }

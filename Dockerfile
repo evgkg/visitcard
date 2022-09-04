@@ -4,12 +4,10 @@ WORKDIR /go/visitCard
 
 COPY . .
 
-ENV PORT 8080
+ENV PORT=8080 PORTS=8090
 
-EXPOSE $PORT
+EXPOSE $PORT $PORTS
 
 RUN go build main.go
-
-#VOLUME ["/go/visitCard"]
 
 CMD ["./main"]
