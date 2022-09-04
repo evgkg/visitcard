@@ -7,10 +7,10 @@ body
     padding:16px;
 }
 a,a:visited,a:hover{
-    color:#0000ee
+    color:#0000ee;
 }
 a:active{
-    color:#ee0000
+    color:#ee0000;
 }
 .fcol{
     width:11px;
@@ -23,7 +23,7 @@ a:active{
 }
 
 .emailValue{
-    color:#0000ee
+    color:#0000ee;
 }
 
 #copied{
@@ -31,5 +31,5 @@ a:active{
 }
 
 #job{
-    color:green
+    color:green;
 }

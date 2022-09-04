@@ -14,7 +14,7 @@ document.onclick = event => {
     }
 }
 function clearText(){
-    cp = document.getElementById('copied')
+    cp = document.getElementById('copied to clipboard')
     cp.remove();
     canCopy = true;
 }
