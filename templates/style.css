@@ -1,0 +1,35 @@
+body
+{
+    font-family:monospace;
+    white-space:pre-wrap;
+    font-size:14px;
+    line-height:17px;
+    padding:16px;
+}
+a,a:visited,a:hover{
+    color:#0000ee
+}
+a:active{
+    color:#ee0000
+}
+.fcol{
+    width:11px;
+    height:11px;
+    background:#A8A8A8;
+    display:inline-block;
+    border:1px solid #ccc;
+    vertical-align:middle;
+    margin-bottom:2px
+}
+
+.emailValue{
+    color:#0000ee
+}
+
+#copied{
+    color:green;
+}
+
+#job{
+    color:green
+}
