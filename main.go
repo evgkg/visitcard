@@ -26,9 +26,9 @@ func donatePage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func handleRequest() {
-	fs := http.FileServer(http.Dir("styles"))
+	fs := http.FileServer(http.Dir("source"))
 
-	http.Handle("/styles/", http.StripPrefix("/styles", fs))
+	http.Handle("/source/", http.StripPrefix("/source", fs))
 
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/donate", donatePage)

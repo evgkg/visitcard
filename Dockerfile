@@ -10,6 +10,6 @@ EXPOSE $PORT
 
 RUN go build main.go
 
-VOLUME ["/go/visitCard"]
+#VOLUME ["/go/visitCard"]
 
 CMD ["./main"]
