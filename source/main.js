@@ -6,7 +6,7 @@ document.onclick = event => {
         navigator.clipboard.writeText(elem.innerHTML)
             .then(()=>{
                 canCopy = false;
-                document.querySelector('.emailValue').innerHTML += '<span id=copied>  copied to clipboard</span>'
+                document.querySelector('.emailValue').innerHTML += '<span id=copied>  copied</span>'
                 setTimeout(clearText, 1000);
             })
     }

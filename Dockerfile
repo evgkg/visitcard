@@ -4,7 +4,7 @@ WORKDIR /go/visitCard
 
 COPY . .
 
-ENV PORT=8080 PORTS=8090
+ENV PORT=8080 PORTS=443 HOST='https://weikelake.info:'
 
 EXPOSE $PORT $PORTS
 
