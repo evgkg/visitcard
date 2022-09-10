@@ -39,7 +39,14 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: | 
-            docker ps
+            docker stop $(echo $CONTAINER_NAME)
+            docker rm $(echo $CONTAINER_NAME)
+            docker rmi $(echo $IMAGE_NAME)
+            docker pull $(echo $IMAGE_NAME)
+            docker run -p 443:443 -p 80:8080 -v certs:/go/visitCard/certs -d \
+            --restart always \
+            --name $(echo $CONTAINER_NAME) $(echo $IMAGE_NAME)
+            
             
       
 
