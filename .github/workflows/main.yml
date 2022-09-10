@@ -13,20 +13,22 @@ env:
   
 
 jobs:
-#   build_and_push:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v3
-#       - name: Build Docker image
-#         run: make build
-#       - name: Login to Docker Hub
-#         uses: docker/login-action@v1
-#         with:
-#           username: ${{ secrets.DH_USERNAME }}
-#           password: ${{ secrets.DH_ACCESS_TOKEN }}
-#       - name: push
-#         run: docker push $(echo $IMAGE_NAME)
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Build Docker image
+        run: make build
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DH_USERNAME }}
+          password: ${{ secrets.DH_ACCESS_TOKEN }}
+      - name: push
+        run: docker push $(echo $IMAGE_NAME)
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -39,10 +41,19 @@ jobs:
           port: ${{ secrets.PORT }}
           envs: IMAGE_NAME, CONTAINER_NAME
           script: | 
+            # Stop running container
             docker stop $(echo $CONTAINER_NAME)
+            
+            # Remove old container
             docker rm $(echo $CONTAINER_NAME)
+            
+            # Remove old image
             docker rmi $(echo $IMAGE_NAME)
+            
+            # Get new image from Dockerhub
             docker pull $(echo $IMAGE_NAME)
+            
+            # Run a new container from a new image
             docker run -p 443:443 -p 80:8080 -v certs:/go/visitCard/certs -d \
             --restart always \
             --name $(echo $CONTAINER_NAME) $(echo $IMAGE_NAME)
