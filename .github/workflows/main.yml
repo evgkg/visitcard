@@ -14,20 +14,33 @@ env:
   
 
 jobs:
-  build_and_push:
+#   build_and_push:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v3
+#       - name: Build Docker image
+#         run: make build
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DH_USERNAME }}
+#           password: ${{ secrets.DH_ACCESS_TOKEN }}
+#       - name: push
+#         run: docker push $(echo $IMAGE_NAME)
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Build Docker image
-        run: make build
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      - name: sshlogin
+        uses: appleboy/ssh-action@master
         with:
-          username: ${{ secrets.DH_USERNAME }}
-          password: ${{ secrets.DH_ACCESS_TOKEN }}
-      - name: push
-        run: docker push $(echo $IMAGE_NAME)
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
+      - name: checkConnection
+        run: docker ps
       
 
 
