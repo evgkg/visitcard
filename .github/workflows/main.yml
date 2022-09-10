@@ -38,9 +38,9 @@ jobs:
           username: ${{ secrets.USER }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: whoami
-      - name: checkConnection
-        run: docker ps
+          script: | 
+            docker ps
+            
       
 
 
