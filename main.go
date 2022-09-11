@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -28,6 +29,10 @@ func donatePage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+}
+
 func redirectTLS(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, os.Getenv("HOST")+os.Getenv("PORTS")+r.RequestURI, http.StatusMovedPermanently)
 	fmt.Println("redirect to " + os.Getenv("HOST") + os.Getenv("PORTS") + r.RequestURI)
@@ -39,6 +44,7 @@ func handleRequest() {
 
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/donate", donatePage)
+	http.HandleFunc("/api/health", healthCheck)
 	go func() {
 		fmt.Println("https started on port: " + os.Getenv("PORTS"))
 		err := http.ListenAndServeTLS(":"+os.Getenv("PORTS"), "certs/fullchain.pem", "certs/privkey.pem", nil)
